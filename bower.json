@@ -1,0 +1,26 @@
+{
+  "name": "fb-svgsynop",
+  "authors": [
+    "Pierre-André Liné <pal@linaware.eu>"
+  ],
+  "description": "Element synoptique pour Flashbox",
+  "main": "fb-svgsynop",
+  "moduleType": [],
+  "keywords": [
+    "flashbox",
+    "scada"
+  ],
+  "license": "MIT",
+  "homepage": "http://www.linaware.eu",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.4.0",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.2.0"
+  }
+}

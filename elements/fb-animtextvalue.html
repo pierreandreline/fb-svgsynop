@@ -1,0 +1,61 @@
+<script>
+    Polymer({
+    is: "fb-animtextvalue",
+    
+    ready: function() {
+    },
+    
+    attached: function() {
+        
+    },
+    
+    properties: {
+        variable: {
+            type: Object
+        }
+        
+    },
+    
+    init: function(symbol, params) {
+        var variableName = params.variable;
+        var tagIndex = TagsNameIndex.indexOf(variableName);
+        if (tagIndex >=0 ) {
+            this.variable = Tags[tagIndex];
+            this.variable.addEventListener('valueChanged', this.variableValueEventHandler.bind(null,this), false);
+            this.tspan = symbol.getElementsByTagName('tspan')[0];
+            this.digits = params.digits;
+            if (!this.tspan) {
+                console.log('animtextvalue init error ...'+this.variable.name+' tspan missing');
+            }
+            else {
+                this.text = this.tspan.innerHTML; 
+                this.update();
+            }
+            
+        }
+        else {
+            console.log('animtextvalue init error variable unknown ... '+variableName);
+        }
+    },
+    
+    variableValueEventHandler: function(that) {
+        that.update();
+    },
+    
+    update: function() {
+        if (this.tspan) {
+            var text = '';
+            if (this.digits) {
+                this.tspan.innerHTML = this.text.replace('%v',this.variable.value.toFixed(this.digits));
+            }
+            else {
+                this.tspan.innerHTML = this.text.replace('%v',this.variable.value);
+            }
+            
+        }
+    }
+    
+    
+        
+    });
+</script>

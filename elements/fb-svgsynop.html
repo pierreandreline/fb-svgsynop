@@ -1,0 +1,108 @@
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="fb-variable.html">
+<link rel="import" href="fb-animtextvalue.html">
+<link rel="import" href="fb-animvisibility.html">
+<link rel="import" href="fb-animfillcolor.html">
+
+<dom-module id="fb-svgsynop">
+    
+    <template>
+        <iron-ajax id="loadAjax" handleAs="xml" method="GET" on-response="hresponse"></iron-ajax>
+        
+        <p>Hello : [[svgfile]]</p>
+    </template>
+
+    <script>
+        Polymer({
+        is: "fb-svgsynop",
+        
+        ready: function() {
+            console.log('ready ...');
+        },
+        
+        attached: function() {
+            console.log('attached ...');
+            if (this.svgfile) {
+                this.$.loadAjax.url = this.svgfile;
+                this.$.loadAjax.handleAs = "xml";
+                this.$.loadAjax.generateRequest(); 
+                
+                /*
+                var img = document.createElement('img');
+                img.src = this.svgfile;
+                img.onload= function() {
+                    console.log('image loaded');
+                }
+                this.appendChild( img );
+                */
+            }
+            
+        },
+        
+        hresponse: function(e) {
+            console.log('svg loaded');
+            
+            // Ajout du SVG au DOM
+            this.svg = e.detail.response.firstElementChild;
+            this.appendChild( this.svg );
+            
+            // Repérage des animations flashbox
+            var titles = this.svg.getElementsByTagName('title');
+            for (var idx = 0; idx < titles.length; idx++) {
+               var title = titles[idx];   
+               if (title.innerHTML === 'fb-animation') {
+                   var parentElement = title.parentElement;
+                   var desc = parentElement.getElementsByTagName('desc')[0];
+                   if (desc) {
+                       //console.log('fb-animation : '+desc.innerHTML);
+                       this.checkAnimations(parentElement, desc.innerHTML);
+                    }
+                    else
+                        console.log('fb-animation : vide');
+               } 
+            };
+            
+        },
+        
+        properties: {
+            svgfile: {
+                type: String
+            }
+        },
+        
+        addVariable: function(variableName, variableValueEventHandler) {
+            var idxVariable = TagsNameIndex.indexOf(variableName);
+            if (idxVariable >= 0) {
+                var variable = Tags[idxVariable];
+                variable.addEventListener('valueChanged', variableValueEventHandler);
+            }
+            else {
+                console.log('variable '+variableName+' introuvable');
+            }
+        },
+        
+        checkAnimations: function(symbol,jsonAnimations) {
+            try {
+                var animations = JSON.parse(jsonAnimations);
+                if (Object.prototype.toString.call(animations) != '[object Array]') {
+                    animations = [animations];
+                }
+                for (var idxAnimation=0; idxAnimation< animations.length; idxAnimation++) {
+                    this.checkAnimation(symbol,animations[idxAnimation]);
+                }
+            }
+            catch(error) {
+                console.log('animation params error: '+error+' '+jsonAnimations);
+            }
+        },
+        
+        checkAnimation: function(symbol,animation) {
+            var type = animation.type;
+            var fbAnim = document.createElement('fb-anim'+type);
+            fbAnim.init(symbol,animation.params);
+        } 
+            
+        });
+    </script>
+</dom-module>
+

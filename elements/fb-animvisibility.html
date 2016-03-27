@@ -1,0 +1,55 @@
+<script>
+    Polymer({
+    is: "fb-animvisibility",
+    
+    ready: function() {
+    },
+    
+    attached: function() {
+        
+    },
+    
+    properties: {
+        variable: {
+            type: Object
+        },
+        visibleValue: {
+            type: Number
+        }
+        
+    },
+    
+    init: function(symbol, params) {
+        var variableName = params.variable;
+        this.visibleValue = params.visibleValue;
+        var tagIndex = TagsNameIndex.indexOf(variableName);
+        if (tagIndex >=0 ) {
+            this.variable = Tags[tagIndex];
+            this.variable.addEventListener('valueChanged', this.variableValueEventHandler.bind(null,this), false);
+            this.symbol = symbol;
+            if (!this.symbol) {
+                console.log('animvisible init error ...'+this.variable.name+' symbol not found');
+            }
+            else {
+                this.update();
+            }
+            
+        }
+        else {
+            console.log('animvisible init error variable unknown ... '+variableName);
+        }
+    },
+    
+    variableValueEventHandler: function(that) {
+        that.update();
+    },
+    
+    update: function() {
+        if (this.symbol)
+            this.symbol.style.visibility = this.variable.value == this.visibleValue ? 'visible': 'hidden';
+    }
+    
+    
+        
+    });
+</script>

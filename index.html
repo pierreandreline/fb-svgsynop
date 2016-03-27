@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <!-- 1. Load platform before any code that touches the DOM -->
+        <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+        <link rel="import" href="bower_components/polymer/polymer.html">
+        
+        <link rel="import" href="elements/fb-svgsynop.html">
+        
+    </head>
+    
+    <body>
+        <div>
+            <button onclick="moins('VARTEST')" style="display: inline-block">-1</button>
+            <button onclick="plus('VARTEST')" style="display: inline-block">+1</button>
+        </div>
+        <div>
+            <button onclick="set('VARTEST2',0)" style="display: inline-block">0</button>
+            <button onclick="set('VARTEST2',1)" style="display: inline-block">1</button>
+        </div>
+        <p>Début</p>
+        <fb-variable name="VARTEST" description="Ma var de test"></fb-variable>
+        <fb-variable name="VARTEST2" description="Ma var de test2"></fb-variable>
+        <fb-svgsynop svgfile="/img/dessin1.svg"></fb-svgsynop>
+        <p>Fin</p>
+    </body>
+    <script>
+        plus= function(variableName) {
+            var idxVariable = TagsNameIndex.indexOf(variableName);
+            var variable = Tags[idxVariable];
+            variable.setValue(variable.value + 1.6698841265);            
+        };
+        
+        moins= function(variableName) {
+            var idxVariable = TagsNameIndex.indexOf(variableName);
+            var variable = Tags[idxVariable];
+            variable.setValue(variable.value - 0.981546546);            
+        }
+        
+        set= function(variableName,value) {
+            var idxVariable = TagsNameIndex.indexOf(variableName);
+            var variable = Tags[idxVariable];
+            variable.setValue(value);            
+        }
+
+    </script>
+</html>

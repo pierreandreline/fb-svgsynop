@@ -1,0 +1,90 @@
+<script>
+    Polymer({
+    is: "fb-animfillcolor",
+    
+    ready: function() {
+    },
+    
+    attached: function() {
+        
+    },
+    
+    properties: {
+        variable: {
+            type: Object
+        },
+        color0: {
+            type: Number
+        },
+        color1: {
+            type: Number
+        },
+        colorN: {
+            type: Number,
+            value: 0x000000
+        },
+        
+    },
+    
+    checkColor: function(value) {
+        switch(value) {
+            case "red": return "#FF0000";
+            case "green": return "#00FF00";
+            case "blue": return "#0000FF";
+            case "yellow": return "#FFFF00";
+            case "orange": return "#FF8000";
+            case "black": return "#000000";
+            case "white": return "#FFFFFF";
+            case "grey": return "#808080";
+            case "lightgrey": return "#C0C0C0";
+            case "darkgrey": return "#404040";
+        }   
+        return value;
+    },
+    
+    init: function(symbol, params) {
+        var variableName = params.variable;
+        this.color0 = this.checkColor(params.color0);
+        this.color1 = this.checkColor(params.color1);
+        if (params.colorN)
+            this.colorN = this.checkColor(params.colorN);
+        var tagIndex = TagsNameIndex.indexOf(variableName);
+        if (tagIndex >=0 ) {
+            this.variable = Tags[tagIndex];
+            this.variable.addEventListener('valueChanged', this.variableValueEventHandler.bind(null,this), false);
+            this.symbol = symbol;
+            if (!this.symbol) {
+                console.log('animfillcolor init error ...'+this.variable.name+' symbol not found');
+            }
+            else {
+                this.update();
+            }
+            
+        }
+        else {
+            console.log('animfillcolor init error variable unknown ... '+variableName);
+        }
+    },
+    
+    variableValueEventHandler: function(that) {
+        that.update();
+    },
+    
+    update: function() {
+        if (this.symbol) {
+            if (this.variable.value == 0) {
+                this.symbol.style.fill = this.color0;
+            }
+            else if (this.variable.value == 1) {
+                this.symbol.style.fill = this.color1;
+            }
+            else {
+                this.symbol.style.fill = this.colorN;
+            }
+        }
+    }
+    
+    
+        
+    });
+</script>
