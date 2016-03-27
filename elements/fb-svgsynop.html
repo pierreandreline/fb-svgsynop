@@ -95,7 +95,10 @@
          * Then create the animation element spcified in the object's description
          */        
         checkAnimation: function(symbol,animation) {
+            // Get animation type
             var type = animation.type;
+            
+            // Create an element with fb-anim prefix
             var fbAnim = document.createElement('fb-anim'+type);
             fbAnim.init(symbol,animation.params);
         } 
