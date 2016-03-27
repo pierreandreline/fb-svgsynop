@@ -17,28 +17,26 @@
         is: "fb-svgsynop",
         
         ready: function() {
-            console.log('ready ...');
+            // Nothing to do
         },
         
+        /***
+         * Start loading the SVG file 
+         */
         attached: function() {
             console.log('attached ...');
             if (this.svgfile) {
                 this.$.loadAjax.url = this.svgfile;
                 this.$.loadAjax.handleAs = "xml";
                 this.$.loadAjax.generateRequest(); 
-                
-                /*
-                var img = document.createElement('img');
-                img.src = this.svgfile;
-                img.onload= function() {
-                    console.log('image loaded');
-                }
-                this.appendChild( img );
-                */
             }
             
         },
         
+        /***
+         * Response of the Ajax loading file request
+         * Checks Flashbox animations in objects 
+         */
         hresponse: function(e) {
             console.log('svg loaded');
             
@@ -64,23 +62,19 @@
             
         },
         
+        /***
+         * Properties
+         *  svgFile: path to the SVG file to load
+         */
         properties: {
             svgfile: {
                 type: String
             }
         },
-        
-        addVariable: function(variableName, variableValueEventHandler) {
-            var idxVariable = TagsNameIndex.indexOf(variableName);
-            if (idxVariable >= 0) {
-                var variable = Tags[idxVariable];
-                variable.addEventListener('valueChanged', variableValueEventHandler);
-            }
-            else {
-                console.log('variable '+variableName+' introuvable');
-            }
-        },
-        
+
+        /***
+         * Checks all animations in the SVG image
+         */        
         checkAnimations: function(symbol,jsonAnimations) {
             try {
                 var animations = JSON.parse(jsonAnimations);
@@ -96,6 +90,10 @@
             }
         },
         
+        /***
+         * Checks one animation in the SVG object
+         * Then create the animation element spcified in the object's description
+         */        
         checkAnimation: function(symbol,animation) {
             var type = animation.type;
             var fbAnim = document.createElement('fb-anim'+type);
