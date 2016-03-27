@@ -1,2 +1,2 @@
 # fb-svgsynop
-Polymer elements for animated Flashbox synoptics from SVG files
+Polymer elements for animated Flashbox synoptics with SVG files

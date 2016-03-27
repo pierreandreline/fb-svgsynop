@@ -3,7 +3,7 @@
   "authors": [
     "Pierre-André Liné <pal@linaware.eu>"
   ],
-  "description": "Element synoptique pour Flashbox",
+  "description": "Polymer elements for animated Flashbox synoptics with SVG files",
   "main": "fb-svgsynop",
   "moduleType": [],
   "keywords": [
