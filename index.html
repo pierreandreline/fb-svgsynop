@@ -10,31 +10,30 @@
     
     <body>
         <div>
-            <button onclick="moins('VARTEST')" style="display: inline-block">-1</button>
-            <button onclick="plus('VARTEST')" style="display: inline-block">+1</button>
+            <div style="display: inline-block; width: 150px">MESURE VALUE</div>
+            <button onclick="add('MESURE_VALUE',-1)" style="display: inline-block; width:80px; height: 30px">-1</button>
+            <button onclick="add('MESURE_VALUE',-0.5)" style="display: inline-block; width:80px; height: 30px">-0.5</button>
+            <button onclick="add('MESURE_VALUE',0.5)" style="display: inline-block; width:80px; height: 30px"">+0.5</button>
+            <button onclick="add('MESURE_VALUE',1)" style="display: inline-block; width:80px; height: 30px"">+1</button>
         </div>
         <div>
-            <button onclick="set('VARTEST2',0)" style="display: inline-block">0</button>
-            <button onclick="set('VARTEST2',1)" style="display: inline-block">1</button>
+            <div style="display: inline-block; width: 150px">MESURE DEFAULT</div>
+            <button onclick="set('MESURE_DEFAUT',0)" style="display: inline-block; width:80px; height: 30px"">0</button>
+            <button onclick="set('MESURE_DEFAUT',1)" style="display: inline-block; width:80px; height: 30px"">1</button>
+            <button onclick="set('MESURE_DEFAUT',2)" style="display: inline-block; width:80px; height: 30px"">2</button>
         </div>
-        <p>Début</p>
-        <fb-variable name="VARTEST" description="Ma var de test"></fb-variable>
-        <fb-variable name="VARTEST2" description="Ma var de test2"></fb-variable>
-        <fb-svgsynop svgfile="/img/dessin1.svg"></fb-svgsynop>
-        <p>Fin</p>
+        <p>SVG file : /img/synoptic1.svg</p>
+        <fb-variable name="MESURE_VALUE" description="Temperature" unit="°C"></fb-variable>
+        <fb-variable name="MESURE_DEFAUT" description="Temperature sensor default"></fb-variable>
+        <fb-svgsynop svgfile="img/synoptic1.svg"></fb-svgsynop>
+        <p>Copyright <a href="http://www.linaware.eu" target="_blank">Linaware &copy; 2016</p>
     </body>
     <script>
-        plus= function(variableName) {
+        add= function(variableName,value) {
             var idxVariable = TagsNameIndex.indexOf(variableName);
             var variable = Tags[idxVariable];
-            variable.setValue(variable.value + 1.6698841265);            
+            variable.setValue(variable.value + value);            
         };
-        
-        moins= function(variableName) {
-            var idxVariable = TagsNameIndex.indexOf(variableName);
-            var variable = Tags[idxVariable];
-            variable.setValue(variable.value - 0.981546546);            
-        }
         
         set= function(variableName,value) {
             var idxVariable = TagsNameIndex.indexOf(variableName);

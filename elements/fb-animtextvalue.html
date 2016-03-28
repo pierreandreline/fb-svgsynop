@@ -1,3 +1,7 @@
+<!---
+    Animation textvalue
+    
+-->
 <script>
     Polymer({
     is: "fb-animtextvalue",
@@ -24,6 +28,8 @@
             this.variable.addEventListener('valueChanged', this.variableValueEventHandler.bind(null,this), false);
             this.tspan = symbol.getElementsByTagName('tspan')[0];
             this.digits = params.digits;
+            if (params.values)
+                this.values = params.values;
             if (!this.tspan) {
                 console.log('animtextvalue init error ...'+this.variable.name+' tspan missing');
             }
@@ -42,16 +48,36 @@
         that.update();
     },
     
+    evaluateValue: function() {
+        if (this.values) {
+            // Value is remplace by a text
+            for (var idxValue = 0; idxValue < this.values.length; idxValue++) {
+                var value = this.values[idxValue];
+                if ((value.value === this.variable.value) || (idxValue === this.values.length - 1))
+                    return value.text;
+            }
+        }
+        if (this.digits) {
+            return this.variable.value.toFixed(this.digits);
+        }
+        else {
+            return this.variable.value;
+        }
+    },
+    
     update: function() {
         if (this.tspan) {
-            var text = '';
-            if (this.digits) {
-                this.tspan.innerHTML = this.text.replace('%v',this.variable.value.toFixed(this.digits));
-            }
-            else {
-                this.tspan.innerHTML = this.text.replace('%v',this.variable.value);
-            }
-            
+            var value = this.evaluateValue();
+            var text = this.text.replace('%v',value);
+            text = text.replace('%d',this.variable.description);
+            text = text.replace('%u',this.variable.unit);
+            text = text.replace('%n',this.variable.name);
+            text = text.replace('%r',this.variable.reference);
+            text = text.replace('%r1',this.variable.ressource1);
+            text = text.replace('%r2',this.variable.ressource2);
+            text = text.replace('%r3',this.variable.ressource3);
+            text = text.replace('%r4',this.variable.ressource4);
+            this.tspan.innerHTML = text;
         }
     }
     
